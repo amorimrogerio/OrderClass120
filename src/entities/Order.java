@@ -1,5 +1,6 @@
 package entities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +57,32 @@ public class Order {
 			sum += o.subTotal();
 		}
 		return sum;
+	}
+	
+	public void sumary() {
+		SimpleDateFormat moment = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat dtBirth = new SimpleDateFormat("dd/MM/yyyy");
+		System.out.println("");
+		System.out.println("ORDER SUMMARY:");
+		System.out.println("Order moment: "+ moment.format(this.moment));
+		System.out.println("Order status: "+ this.status);
+		System.out.println("Client: "+this.client.getName()+
+				           " ("+dtBirth.format(this.client.getBirthDate())+") - "+
+				             this.client.getEmail());
+		System.out.println("Order items:");
+		
+		double sum=0;
+		for ( OrderItem o : items) {
+			double subtot = o.getProduct().getPrice() * o.getQuantity();
+			sum+=subtot;
+			System.out.printf(o.getProduct().getName()+", "+
+					           "$ %.2f, "+
+					           "Quantity: "+o.getQuantity()+", "+
+					           "Subtotal: $ %.2f %n",o.getProduct().getPrice(),subtot);
+		}
+		System.out.printf("Total price: $ %.2f",sum);
+		
+		
 	}
 
 }
